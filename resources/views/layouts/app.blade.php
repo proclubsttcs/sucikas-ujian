@@ -34,26 +34,49 @@
 <body class="font-sans text-slate-900 antialiased">
 <div class="min-h-screen lg:flex">
     <div id="overlay" class="fixed inset-0 z-30 hidden bg-slate-900/50 backdrop-blur-sm lg:hidden"></div>
-    <aside id="sidebar" class="no-print fixed inset-y-0 left-0 z-40 flex w-68 -translate-x-full flex-col overflow-hidden transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0" style="width:17rem;background:linear-gradient(170deg,#1e1b4b 0%,#312e81 55%,#4c1d95 100%)">
-        <div class="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-violet-500/30 blur-3xl" style="animation: float 9s ease-in-out infinite"></div>
-        <div class="pointer-events-none absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-cyan-400/20 blur-3xl" style="animation: drift 11s ease-in-out infinite"></div>
-        <div class="relative flex h-16 items-center gap-3 px-5">
-            <div class="bg-brand grid h-10 w-10 place-items-center rounded-xl text-lg font-extrabold text-white shadow-lg shadow-black/30" style="animation: pulse-ring 2.4s ease-out infinite">S</div>
-            <div class="leading-tight"><p class="font-bold text-white">Sucikas Ujian</p><p class="text-[11px] text-indigo-200/70">Computer Based Test</p></div>
-        </div>
-        <nav class="relative flex-1 space-y-1 overflow-y-auto px-3 py-3">
-            @foreach ($menu as [$label, $route, $icon, $pattern])
-                <a href="{{ route($route) }}" class="nav-link {{ request()->routeIs($pattern) ? 'nav-link-active' : '' }}" style="animation: slide-in .5s ease both; animation-delay: {{ $loop->index * 50 }}ms">
-                    <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="{{ $ic[$icon] }}"/></svg>
-                    <span class="truncate">{{ $label }}</span>
-                </a>
-            @endforeach
-        </nav>
-        <div class="relative border-t border-white/10 p-4">
-            <div class="flex items-center gap-3">
-                <div class="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-sm font-bold text-white">{{ strtoupper(substr($u->name, 0, 1)) }}</div>
-                <div class="min-w-0"><p class="truncate text-sm font-medium text-white">{{ $u->name }}</p><p class="text-xs text-indigo-200/70">{{ ucfirst($u->getRoleNames()->first()) }}</p></div>
+    <aside id="sidebar" class="no-print fixed inset-y-0 left-0 z-40 flex w-68 -translate-x-full flex-col overflow-hidden transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen lg:translate-x-0" style="width:17rem;">
+        
+        <!-- Lapisan 1: Gambar Latar Paling Belakang (z-0) -->
+        <img src="{{ asset('images/2.jpg') }}" alt="Background Sidebar" class="absolute inset-0 z-0 h-full w-full object-cover">
+        
+        <!-- Lapisan 2: Overlay Gelap & Blur di atas gambar (z-10) -->
+        <div class="absolute inset-0 z-10 bg-slate-950/80 backdrop-blur-md"></div>
+
+        <!-- Lapisan 3: Wrapper Konten Menu & Logo paling depan (z-20) -->
+        <div class="relative z-20 flex h-full flex-col">
+            
+            <div class="pointer-events-none absolute -left-16 -top-16 h-56 w-56 rounded-full bg-violet-500/20 blur-3xl" style="animation: float 9s ease-in-out infinite"></div>
+            <div class="pointer-events-none absolute -bottom-20 -right-10 h-56 w-56 rounded-full bg-cyan-400/10 blur-3xl" style="animation: drift 11s ease-in-out infinite"></div>
+            
+            <div class="relative flex h-16 items-center gap-3 px-5 mt-2">
+                @if ($logo = \App\Models\Setting::url('logo_sekolah'))
+                    <img src="{{ $logo }}" class="h-10 w-auto rounded-lg drop-shadow-md" alt="Logo">
+                @else
+                    <div class="bg-brand grid h-10 w-10 place-items-center rounded-xl text-lg font-extrabold text-white shadow-lg shadow-black/30" style="animation: pulse-ring 2.4s ease-out infinite">S</div>
+                @endif
+                
+                <div class="leading-tight">
+                    <p class="font-bold text-white">CBT FaturWeb</p>
+                    <p class="text-[11px] text-indigo-200/70">Computer Based Test</p>
+                </div>
             </div>
+            
+            <nav class="relative flex-1 space-y-1 overflow-y-auto px-3 py-3">
+                @foreach ($menu as [$label, $route, $icon, $pattern])
+                    <a href="{{ route($route) }}" class="nav-link {{ request()->routeIs($pattern) ? 'nav-link-active' : '' }}" style="animation: slide-in .5s ease both; animation-delay: {{ $loop->index * 50 }}ms">
+                        <svg class="h-5 w-5 shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="{{ $ic[$icon] }}"/></svg>
+                        <span class="truncate">{{ $label }}</span>
+                    </a>
+                @endforeach
+            </nav>
+            
+            <div class="relative border-t border-white/10 p-4">
+                <div class="flex items-center gap-3">
+                    <div class="grid h-9 w-9 place-items-center rounded-full bg-white/15 text-sm font-bold text-white">{{ strtoupper(substr($u->name, 0, 1)) }}</div>
+                    <div class="min-w-0"><p class="truncate text-sm font-medium text-white">{{ $u->name }}</p><p class="text-xs text-indigo-200/70">{{ ucfirst($u->getRoleNames()->first()) }}</p></div>
+                </div>
+            </div>
+            
         </div>
     </aside>
     <div class="flex min-w-0 flex-1 flex-col">

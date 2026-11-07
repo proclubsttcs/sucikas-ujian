@@ -1,20 +1,41 @@
 @extends('layouts.app')
 @section('title', 'Dashboard')
 @section('content')
+
 @role('admin')
-<div class="bg-brand relative overflow-hidden rounded-3xl p-6 text-white shadow-xl shadow-indigo-500/25 sm:p-8">
-    <div class="pointer-events-none absolute -right-10 -top-16 h-56 w-56 rounded-full bg-white/15 blur-2xl" style="animation:float 9s ease-in-out infinite"></div>
-    <div class="pointer-events-none absolute -bottom-20 left-1/3 h-48 w-48 rounded-full bg-cyan-300/25 blur-2xl" style="animation:drift 11s ease-in-out infinite"></div>
-    <div class="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-            <p class="text-sm text-indigo-100">Token ujian saat ini</p>
-            <p class="mt-1 font-mono text-4xl font-extrabold tracking-[0.35em] sm:text-5xl" style="text-shadow:0 4px 24px rgba(0,0,0,.25)">{{ $token }}</p>
-            <p class="mt-2 text-xs text-indigo-100/80">Bagikan kepada siswa saat ujian dimulai.</p>
+<div class="relative overflow-hidden rounded-3xl bg-[#1e1b4b] p-6 shadow-2xl sm:p-8">
+    <!-- Latar Belakang Gambar (Gunakan gambar yang sama dengan sidebar) -->
+    <img src="{{ asset('images/2.jpg') }}" alt="Background Token" class="absolute inset-0 z-0 h-full w-full object-cover opacity-50 blur-[2px]">
+    
+    <!-- Overlay Gradasi Gelap -->
+    <div class="absolute inset-0 z-0 bg-gradient-to-r from-indigo-950/90 to-violet-900/80"></div>
+    
+    <!-- Konten Token (Relative z-10) -->
+    <div class="relative z-10 flex flex-col items-center justify-between gap-6 md:flex-row">
+        <div class="text-center md:text-left">
+            <p class="mb-2 text-sm font-medium text-indigo-200">Token ujian saat ini</p>
+            
+            <!-- Variabel Token Tetap Aman -->
+            <h2 class="mb-2 font-mono text-5xl font-extrabold tracking-[0.35em] text-white drop-shadow-md sm:text-6xl">
+                {{ $token }}
+            </h2>
+            
+            <p class="text-sm text-indigo-200/70">Bagikan kepada siswa saat ujian dimulai.</p>
         </div>
-        <form method="POST" action="{{ route('admin.token') }}">@csrf<button class="btn border border-white/40 bg-white/15 text-white backdrop-blur hover:bg-white/25">⟳ Ganti token</button></form>
+        
+        <!-- Form Ganti Token Tetap Aman -->
+        <form method="POST" action="{{ route('admin.token') }}">
+            @csrf
+            <button type="submit" class="flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-6 py-3 text-sm font-bold text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-white/20">
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                Ganti token
+            </button>
+        </form>
     </div>
 </div>
 @endrole
+
+<!-- Bagian Statistik (Tidak Dirubah) -->
 <div class="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
     @foreach ([
         ['Siswa mengikuti ujian', $jmlSiswaUjian, 'linear-gradient(135deg,#6366f1,#8b5cf6)', 'rgba(99,102,241,.14)', 'M16 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M9.5 10a3.5 3.5 0 100-7 3.5 3.5 0 000 7z'],
@@ -29,6 +50,8 @@
         </div>
     @endforeach
 </div>
+
+<!-- Bagian Tabel Ujian (Tidak Dirubah) -->
 <div class="card">
     <div class="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h2 class="flex items-center gap-2 text-base font-bold"><span class="h-2.5 w-2.5 rounded-full bg-emerald-500" style="animation:pulse-ring 1.8s ease-out infinite"></span>Ujian sedang berlangsung</h2>
